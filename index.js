@@ -25,5 +25,4 @@ app.get("/data/:key",(req,res)=>{
 
 app.listen(process.env.PORT,()=>{
     console.log(`server running on ${process.env.PORT}`);
-    
 })
