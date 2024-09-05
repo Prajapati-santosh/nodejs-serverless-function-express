@@ -1,7 +1,14 @@
 import express from "express";
 import data from "./Data/DataMap.js";
+import cors from"cors";
+
 const app=express();
 
+let corsOption={
+    origin:"*"
+}
+
+app.use(cors(corsOption));
 
 app.get("/",(req,res)=>{
     res.send("hello");
