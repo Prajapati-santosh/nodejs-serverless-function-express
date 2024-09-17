@@ -1,6 +1,7 @@
 import express from "express";
 import data from "./Data/DataMap.js";
 import cors from"cors";
+import sendEmail from "./src/SendMail.js";
 
 const app=express();
 
@@ -31,23 +32,12 @@ app.get("/data/:key",(req,res)=>{
 })
 
 
-// API for otp generation
+// API for otp generation for email 
 
-function generateOTP(){
-    let nums="0123456789";
-    let otp='';
-    for(let i=0;i<4;i++){
-        otp+=nums[Math.floor(Math.random()*nums.length)];
-    }
-    return otp;
-}
-
-app.get("/otp",(req,res)=>{
-    let otp=generateOTP();
-    res.send(`${otp}`);
+app.get("/otp/:email",(req,res)=>{
+   const respon= sendEmail(req.params.email);
+   res.send(respon);
 })
-
-
 
 // 
 app.listen(process.env.PORT,()=>{
