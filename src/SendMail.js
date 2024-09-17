@@ -1,9 +1,10 @@
-import nodemailer from "nodemailer";
-import generateOTP from "./generateOtp.js";
-
 import path from "path";
 import handlebars from "handlebars";
 import fs from "fs";
+import nodemailer from "nodemailer";
+import generateOTP from "./generateOtp.js";
+
+
 
 const transporter=nodemailer.createTransport({
     host:"smtp.gmail.com",
