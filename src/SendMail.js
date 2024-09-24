@@ -49,12 +49,8 @@ await new Promise((resolve, reject) => {
         subject:"OTP for login/signup to e-commerce",
         text: `Here is you otp for email verification ${otp}`,
         html:htmlToSend
-    }).then(()=>{
-        console.log(`otp sent ${otp}`);
-    }).catch((error)=>{
-        console.log("otp not sent");
+    });
 })
-});
     return "OTP generation failed";
 }
 
