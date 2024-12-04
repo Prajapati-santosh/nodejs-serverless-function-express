@@ -4,6 +4,8 @@ import handlebars from "handlebars";
 import fs from "fs";
 import nodemailer from "nodemailer";
 import generateOTP from "./generateOtp.js";
+import res from "express/lib/response.js";
+import '/workspaces/nodejs-serverless-function-express/public/emailTemplate.html';
 
 async function sendEmail(email) {
     const transporter = nodemailer.createTransport({
@@ -59,6 +61,10 @@ async function sendEmail(email) {
             reject(error);
         });
     });
+    const obj={
+        "otp":otp
+    }
+    return obj;
 }
 
 export default sendEmail;
