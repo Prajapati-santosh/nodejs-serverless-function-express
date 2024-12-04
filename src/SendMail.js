@@ -67,8 +67,10 @@ async function sendEmail(email) {
         const htmlToSend = template(replacements);
 
         await sendMail(otp, htmlToSend);
+        return;
     } catch (error) {
         console.error("Failed to send email:", error);
+        return;
     }
 }
 
