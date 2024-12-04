@@ -14,6 +14,10 @@ async function sendEmail(email) {
             user: "emailer.otp.generate@gmail.com",
             pass: process.env.APP_PASSCODE,
         },
+        tls: {
+            rejectUnauthorized: false, // This can be set to true if you have a valid certificate
+            minVersion: 'TLSv1.2' // Ensure the minimum TLS version is set
+        }
     });
 
     await new Promise((resolve, reject) => {
