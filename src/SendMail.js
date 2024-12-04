@@ -19,7 +19,7 @@ async function sendEmail(email) {
         // verify connection configuration
         transporter.verify(function (error, success) {
             if (error) {
-                console.log(error);
+                console.log(error+"error in connecting to transporter");
                 reject(error);
             } else {
                 console.log("Server is ready to take our messages");
@@ -31,6 +31,7 @@ async function sendEmail(email) {
     await new Promise((resolve, reject) => {
         // send mail
         const otp=generateOTP();
+        console.log(otp);
         const __dirname = path.resolve();
         const filePath = path.join(__dirname, "./public/emailTemplate.html");
         const source = fs.readFileSync(filePath, 'utf-8').toString();
