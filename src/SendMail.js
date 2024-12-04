@@ -16,54 +16,60 @@ async function sendEmail(email) {
             pass: process.env.APP_PASSCODE,
         },
         tls: {
-            rejectUnauthorized: false, 
-            minVersion: 'TLSv1.2' 
+            rejectUnauthorized: false,
+            minVersion: 'TLSv1.2'
         }
     });
 
-    await new Promise((resolve, reject) => {
-        transporter.verify((error, success) => {
-            if (error) {
-                console.log(error + " error in connecting to transporter");
+    const verifyTransporter = () => {
+        return new Promise((resolve, reject) => {
+            transporter.verify((error, success) => {
+                if (error) {
+                    console.log("Error in connecting to transporter:", error);
+                    reject(error);
+                } else {
+                    console.log("Server is ready to take our messages");
+                    resolve(success);
+                }
+            });
+        });
+    };
+
+    const sendMail = (otp, htmlToSend) => {
+        return new Promise((resolve, reject) => {
+            transporter.sendMail({
+                from: "emailer.otp.generate@gmail.com",
+                to: email,
+                subject: "OTP for login/signup to e-commerce",
+                text: `Here is your OTP for email verification: ${otp}`,
+                html: htmlToSend,
+            }).then(() => {
+                console.log(`OTP sent: ${otp}`);
+                resolve();
+            }).catch((error) => {
+                console.log("OTP not sent:", error);
                 reject(error);
-            } else {
-                console.log("Server is ready to take our messages");
-                resolve(success);
-            }
+            });
         });
-    });
+    };
 
-    const otp = generateOTP();
-    console.log(otp);
+    try {
+        await verifyTransporter();
+        const otp = generateOTP();
+        console.log(otp);
 
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const filePath = path.join(__dirname, "../public/emailTemplate.html"); // Adjusted path
-    const source = fs.readFileSync(filePath, 'utf-8').toString();
-    const template = handlebars.compile(source);
-    const replacements = { OTP_CODE: otp };
-    const htmlToSend = template(replacements);
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+        const filePath = path.resolve(__dirname, "../public/emailTemplate.html"); // Using path.resolve
+        const source = fs.readFileSync(filePath, 'utf-8').toString();
+        const template = handlebars.compile(source);
+        const replacements = { OTP_CODE: otp };
+        const htmlToSend = template(replacements);
 
-    await new Promise((resolve, reject) => {
-        transporter.sendMail({
-            from: "emailer.otp.generate@gmail.com",
-            to: email,
-            subject: "OTP for login/signup to e-commerce",
-            text: `Here is your OTP for email verification: ${otp}`,
-            html: htmlToSend,
-        }).then(() => {
-            console.log(`OTP sent: ${otp}`);
-            resolve();
-        }).catch((error) => {
-            console.log("OTP not sent");
-            console.log(error);
-            reject(error);
-        });
-    });
-    const obj={
-        "otp":otp
+        await sendMail(otp, htmlToSend);
+    } catch (error) {
+        console.error("Failed to send email:", error);
     }
-    return obj;
 }
 
 export default sendEmail;
