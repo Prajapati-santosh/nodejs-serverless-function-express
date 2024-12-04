@@ -5,7 +5,6 @@ import fs from "fs";
 import nodemailer from "nodemailer";
 import generateOTP from "./generateOtp.js";
 import res from "express/lib/response.js";
-import '/workspaces/nodejs-serverless-function-express/public/emailTemplate.html';
 
 async function sendEmail(email) {
     const transporter = nodemailer.createTransport({
@@ -17,8 +16,8 @@ async function sendEmail(email) {
             pass: process.env.APP_PASSCODE,
         },
         tls: {
-            rejectUnauthorized: false, // This can be set to true if you have a valid certificate
-            minVersion: 'TLSv1.2' // Ensure the minimum TLS version is set
+            rejectUnauthorized: false, 
+            minVersion: 'TLSv1.2' 
         }
     });
 
@@ -39,7 +38,7 @@ async function sendEmail(email) {
 
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    const filePath = path.join(__dirname, "./public/emailTemplate.html");
+    const filePath = path.join(__dirname, "../public/emailTemplate.html"); // Adjusted path
     const source = fs.readFileSync(filePath, 'utf-8').toString();
     const template = handlebars.compile(source);
     const replacements = { OTP_CODE: otp };
