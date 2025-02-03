@@ -20,8 +20,8 @@ async function sendEmail(email) {
           }  
     });
 
-    const verifyTransporter = () => {
-        return new Promise((resolve, reject) => {
+    const verifyTransporter = async() => {
+        return  await new Promise((resolve, reject) => {
             transporter.verify((error, success) => {
                 if (error) {
                     console.log("Error in connecting to transporter:", error);
@@ -34,8 +34,8 @@ async function sendEmail(email) {
         });
     };
 
-    const sendMail = (otp, htmlToSend) => {
-        return new Promise((resolve, reject) => {
+    const sendMail = async(otp, htmlToSend) => {
+        return await new Promise((resolve, reject) => {
             transporter.sendMail({
                 from: "emailer.otp.generate@gmail.com",
                 to: email,
