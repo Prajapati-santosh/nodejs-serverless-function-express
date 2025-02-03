@@ -16,9 +16,8 @@ async function sendEmail(email) {
             pass: process.env.APP_PASSCODE,
         },
         tls: {
-            rejectUnauthorized: false,
-            minVersion: 'TLSv1.2'
-        }
+            rejectUnauthorized: false
+          }  
     });
 
     const verifyTransporter = () => {
