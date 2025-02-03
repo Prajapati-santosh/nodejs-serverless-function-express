@@ -9,7 +9,7 @@ import res from "express/lib/response.js";
 async function sendEmail(email) {
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
-        port: 587,
+        port: 465,
         secure: true,
         auth: {
             user: "emailer.otp.generate@gmail.com",
