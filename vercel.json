@@ -15,7 +15,7 @@
       "dest": "/index.js"
     },
     {
-      "src": "/signup/:username/:password",
+      "src": "/signup/(.*)",
       "dest": "/index.js"
     },
     {
@@ -23,7 +23,7 @@
       "dest": "/index.js"
     },
     {
-      "src": "/Login/:username/:password",
+      "src": "/Login/(.*)",
       "dest": "/index.js"
     },
     {
