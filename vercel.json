@@ -7,23 +7,28 @@
       "dest": "/index.js"
     },
     {
-      "src": "/data/(.*)",
+      "src": "/data/:key",
       "dest": "/index.js"
     },
     {
-      "src": "/otp/(.*)",
+      "src": "/otp/:email",
       "dest": "/index.js"
-    },{
-      "src":"/getInfo",
-      "dest":"./index.js"
     },
     {
-      "src":"/signup/(.*)",
-      "dest":"./index.js"
+      "src": "/signup/:username/:password",
+      "dest": "/index.js"
     },
     {
-      "src":"/Login/(.*)",
-      "dest":"./index.js"
+      "src": "/getInfo",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/Login/:username/:password",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/isItMyPassKey",
+      "dest": "/index.js"
     }
   ]
 }
