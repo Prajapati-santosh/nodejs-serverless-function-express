@@ -13,6 +13,17 @@
     {
       "src": "/otp/(.*)",
       "dest": "/index.js"
+    },{
+      "src":"/getInfo/(.*)",
+      "dest":"./index.js"
+    },
+    {
+      "src":"/signup/(.*)",
+      "dest":"./index.js"
+    },
+    {
+      "src":"/Login/(.*)",
+      "dest":"./index.js"
     }
   ]
 }
