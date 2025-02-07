@@ -110,9 +110,9 @@ app.get("/getInfo",async(req,res)=>{
 
 
 
-app.get("/Login/:username/:password",async(req,res)=>{
+app.post("/Login",async(req,res)=>{
     try{
-        const userName=req.params.username;
+        const [userName,passkey]=req.body;
         if(!userName){
             return res.status(400).send("Enter a valid username");
         }
@@ -120,9 +120,8 @@ app.get("/Login/:username/:password",async(req,res)=>{
         if(!data){
             return res.status(400).send("No user Found")
         }
-        const password=req.params.password;
-
-        if(bcrypt.compare(password,data)){
+        
+        if(bcrypt.compare(passkey,data)){
             console.log(data);
             console.log(password);
             res.send("Wrong password");
