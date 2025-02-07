@@ -6,9 +6,10 @@ import Pool from 'pg-pool';
 import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 
+
 const app=express();
 
-app.use(bodyParser.urlencoded())
+// app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
 
 let corsOption={
@@ -112,7 +113,7 @@ app.get("/getInfo",async(req,res)=>{
 
 app.post("/Login",async(req,res)=>{
     try{
-        const [userName,passkey]=req.body;
+        const {userName,passkey}=req.body;
         if(!userName){
             return res.status(400).send("Enter a valid username");
         }
@@ -122,8 +123,6 @@ app.post("/Login",async(req,res)=>{
         }
         
         if(bcrypt.compare(passkey,data)){
-            console.log(data);
-            console.log(password);
             res.send("Wrong password");
         }
         else{
