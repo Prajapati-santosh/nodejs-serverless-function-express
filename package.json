@@ -9,12 +9,23 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.8",
+    "mongoclient": "^1.0.3",
+    "mongodb": "^6.13.0",
+    "mongoose": "^8.9.6",
+    "neon": "^2.0.0",
     "nodemailer": "^6.9.15",
     "nodemon": "^3.1.4",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pg": "^8.13.1",
+    "pg-pool": "^3.7.0"
   }
 }
