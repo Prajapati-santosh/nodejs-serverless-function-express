@@ -14,7 +14,7 @@
       "src": "/otp/(.*)",
       "dest": "/index.js"
     },{
-      "src":"/getInfo/(.*)",
+      "src":"/getInfo",
       "dest":"./index.js"
     },
     {
