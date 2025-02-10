@@ -9,7 +9,6 @@ import bodyParser from "body-parser";
 
 const app=express();
 
-// app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
 
 let corsOption={
@@ -53,7 +52,7 @@ async function postData(userName,passkey) {
     })
     const client = await pool.connect();
     try {
-        const query=`insert into auth value(nextVal(userSeqId),$1,$2)`;
+        const query=`insert into auth values(nextval('userIdSeq'),$1,$2,'2002-02-27','sp359422@gmail.com')`;
         const {rows}= await client.query(query,[`${userName}`,`${passkey}`]);
         if (rows.length > 0) {
             return true; 
@@ -65,10 +64,10 @@ async function postData(userName,passkey) {
     }
 }
 
-app.post("/signup/:username/:password",async(req,res)=>{
+app.post("/signup",async(req,res)=>{
     try{
-        const userName=req.params.username;
-        const password= await bcrypt.hash(parseInt(req.params.password,process.env.SALT_ROUND))
+        const {userName,passkey}=req.body;
+        const password= await bcrypt.hash(passkey,parseInt(process.env.SALT_ROUND));
         
         const postD=postData(userName,password);
         if(postD){
