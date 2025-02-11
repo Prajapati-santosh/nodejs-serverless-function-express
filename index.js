@@ -76,7 +76,7 @@ app.post("/signup",async(req,res)=>{
         
         const postD=postData(userName,password);
         if(postD){
-            res.send("signed up ");
+            res.send(`${userName}`);
         }else{
             res.send('Not able to sign you up');
         }
@@ -90,18 +90,18 @@ async function getData(userName) {
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: {
-          rejectUnauthorized: false,
+            rejectUnauthorized: false,
         },
-      });
+    });
     const client = await pool.connect();
     try {
-        const query = 'select * from auth where userName=$1';
-        const values = [`${userName}`];
+        const query = 'SELECT passkey FROM auth WHERE userName=$1';
+        const values = [userName];
         const { rows } = await client.query(query, values);
         if (rows.length > 0) {
-            return rows[0].passkey; 
+            return rows[0].passkey; // Return the passkey directly
         } else {
-            return null; 
+            return null;
         }
     } finally {
         client.release();
@@ -115,28 +115,28 @@ app.get("/getInfo",async(req,res)=>{
 
 
 
-app.post("/Login",async(req,res)=>{
-    try{
-        const {userName,passkey}=req.body;
-        if(!userName){
+app.post("/Login", async (req, res) => {
+    try {
+        const { userName, passkey } = req.body;
+        if (!userName) {
             return res.status(400).send("Enter a valid username");
         }
-        const data=await getData(userName);
-        if(!data){
-            return res.status(400).send("No user Found")
+        const data = await getData(userName);
+        if (!data) {
+            return res.status(400).send("No user found");
         }
-        
-        if(bcrypt.compare(passkey,data)){
-            res.send("Wrong password");
+        const isMatch = await bcrypt.compare(passkey, data);
+        if (!isMatch) {
+            return res.status(400).send("Wrong password");
+        } else {
+            res.send("User password matched");
         }
-        else{
-            res.send("user password matched");
-        }
-    }
-    catch(error){
+    } catch (error) {
         console.log(error);
+        res.status(500).send("Internal server error");
     }
-})
+});
+
 
 app.get("/isItMyPassKey", async (req, res) => {
     try {
