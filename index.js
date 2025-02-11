@@ -8,14 +8,13 @@ import bodyParser from "body-parser";
 
 
 const app=express();
-
-app.use(bodyParser.json())
-
+//cors error resolution by making sure that the other middleware are not above the CORS policy middleware
 let corsOption={
     origin:"*"
 }
-
 app.use(cors(corsOption));
+app.use(bodyParser.json())
+
 
 app.get("/",(req,res)=>{
     res.send("hello");
