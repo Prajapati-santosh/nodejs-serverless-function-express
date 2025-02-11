@@ -7,13 +7,19 @@ import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 
 
-const app=express();
-//cors error resolution by making sure that the other middleware are not above the CORS policy middleware
-let corsOption={
-    origin:"*"
-}
-app.use(cors(corsOption));
-app.use(bodyParser.json())
+const app = express();
+
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 app.get("/",(req,res)=>{
