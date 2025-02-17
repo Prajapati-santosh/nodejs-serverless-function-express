@@ -1,4 +1,9 @@
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+
+const __logFilePath=`${process.cwd()}/Data/Logs/logs.txt`;
 
 
 function logger(req,res,next){
@@ -6,15 +11,14 @@ function logger(req,res,next){
     const host=req.hostname;
     const userAgent = req.headers['user-agent'];
     const content=req.method+" "+date+" "+host+" "+userAgent ;
-    fs.appendFile("/workspaces/nodejs-serverless-function-express/Data/Logs/logs.txt", `${content}\n`, (err) => {
+    
+    fs.appendFile(__logFilePath, `${content}\n`, (err) => {
         if (err) {
             console.error("Error writing to file:", err);
         } else {
             console.log("Log written successfully");
         }
     });
-    console.log(req.accept);
-    
     next(); 
 }
 
