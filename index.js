@@ -4,8 +4,8 @@ import cors from"cors";
 import sendEmail from "./src/SendMail.js";
 import Pool from 'pg-pool';
 import bcrypt from "bcrypt";
-import bodyParser from "body-parser";
-
+import cookieParser from "cookie-parser";
+import logger from './src/middlewares/logger.js';
 
 const app = express();
 
@@ -21,8 +21,7 @@ app.options('*', cors(corsOptions)); // Handle preflight requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-app.get("/",(req,res)=>{
+app.get("/",logger,(req,res)=>{
     res.send("hello");
 })
 
