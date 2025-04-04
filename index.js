@@ -5,7 +5,11 @@ import sendEmail from "./src/SendMail.js";
 import Pool from 'pg-pool';
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
-import logger from './src/middlewares/logger.js';
+import jwt from 'jsonwebtoken'
+import auth from "./src/middlewares/auth.js";
+
+// import logger from './src/middlewares/logger.js';
+
 
 const app = express();
 
@@ -18,10 +22,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(auth);
 
-app.get("/",logger,(req,res)=>{
+app.get("/",(req,res)=>{
     res.send("hello");
 })
 
@@ -40,6 +46,7 @@ app.get("/data/:key",(req,res)=>{
     res.send("Not authenticated");
    }
 })
+
 
 // API for otp generation for email 
 app.get("/otp/:email",(req,res)=>{
@@ -107,13 +114,14 @@ async function getData(userName) {
     }
 }
 
-app.get("/getInfo",async(req,res)=>{
-    const data= await getData('Santosh');
-    res.send(data);
+app.get("/getInfo",auth,async(req,res)=>{
+    const jsonObj=req.cookies.sessionStorage;
+    console.log(jsonObj);
+    res.send(jsonObj);
 })
 
 
-
+ 
 app.post("/Login", async (req, res) => {
     try {
         const { userName, passkey } = req.body;
@@ -128,6 +136,19 @@ app.post("/Login", async (req, res) => {
         if (!isMatch) {
             return res.status(400).send("Wrong password");
         } else {
+            const data={
+                time:Date(),
+                username:userName
+            }
+            const key=process.env.JWT_SECURITY_KEY;
+            const token=jwt.sign(data,key);
+            const cookieOptions={
+                expires: new Date(Date.now() + 86400000),
+                httpOnly: true,
+                userName:userName,
+                authToken:token
+            }
+            res.cookie('sessionStorage',token,cookieOptions);
             res.send("User password matched");
         }
     } catch (error) {
@@ -158,6 +179,8 @@ app.get("/isItMyPassKey", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+
 
 app.listen(process.env.PORT,()=>{
     console.log(`server running on ${process.env.PORT}`);

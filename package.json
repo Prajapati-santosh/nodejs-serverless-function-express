@@ -8,6 +8,9 @@
     "@vercel/node": "^2.9.6",
     "typescript": "^4.7.3"
   },
+  "scripts": {
+    "node": "nodemon --env-file .env index.js"
+  },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
     "bcrypt": "^5.1.1",
