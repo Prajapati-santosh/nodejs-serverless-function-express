@@ -25,7 +25,6 @@ app.options('*', cors(corsOptions)); // Handle preflight requests
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(auth);
 
 app.get("/",(req,res)=>{
     res.send("hello");
@@ -115,9 +114,7 @@ async function getData(userName) {
 }
 
 app.get("/getInfo",auth,async(req,res)=>{
-    const jsonObj=req.cookies.sessionStorage;
-    console.log(jsonObj);
-    res.send(jsonObj);
+    res.send("verified");
 })
 
 
@@ -136,19 +133,20 @@ app.post("/Login", async (req, res) => {
         if (!isMatch) {
             return res.status(400).send("Wrong password");
         } else {
-            const data={
-                time:Date(),
-                username:userName
-            }
-            const key=process.env.JWT_SECURITY_KEY;
-            const token=jwt.sign(data,key);
-            const cookieOptions={
-                expires: new Date(Date.now() + 86400000),
+            const payload = {
+                time: Date(),
+                username: userName
+            };
+            const key = process.env.JWT_SECURITY_KEY;
+            console.log(key);
+            const token = jwt.sign(payload, key);
+            const cookieOptions = {
+                maxAge: 900000, // 1 day
                 httpOnly: true,
-                userName:userName,
-                authToken:token
-            }
-            res.cookie('sessionStorage',token,cookieOptions);
+                secure:true // Ensure cookies are secure in production
+            };
+            res.cookie('sessionStorage', token, cookieOptions);
+            console.log("Cookie set:", token); // Verify the cookie setting
             res.send("User password matched");
         }
     } catch (error) {
