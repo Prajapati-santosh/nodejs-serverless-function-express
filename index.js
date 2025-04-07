@@ -137,6 +137,7 @@ app.post("/Login", async (req, res) => {
                 time: Date(),
                 username: userName
             };
+            //key from enviroment variable
             const key = process.env.JWT_SECURITY_KEY;
             console.log(key);
             const token = jwt.sign(payload, key);
