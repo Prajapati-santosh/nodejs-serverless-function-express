@@ -9,7 +9,7 @@
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "node": "nodemon --env-file .env index.js"
+    "node": "nodemon --env-file .env.local index.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",

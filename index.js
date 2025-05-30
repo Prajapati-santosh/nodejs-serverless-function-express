@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
 import jwt from 'jsonwebtoken'
 import auth from "./src/middlewares/auth.js";
-
+import postData from "./src/postData.js"
 // import logger from './src/middlewares/logger.js';
 
 
@@ -53,33 +53,33 @@ app.get("/otp/:email",(req,res)=>{
    res.send(respon);
 })
 
-async function postData(userName,passkey) {
-    const pool=new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false,
-        },
-    })
-    const client = await pool.connect();
-    try {
-        const query=`insert into auth values(nextval('userIdSeq'),$1,$2,'2002-02-27','sp359422@gmail.com')`;
-        const {rows}= await client.query(query,[`${userName}`,`${passkey}`]);
-        if (rows.length > 0) {
-            return true; 
-        } else {
-            return null; 
-        }
-    } catch (error) {
-       console.log(error);
-    }
-}
+// async function postData(userName,passkey) {
+//     const pool=new Pool({
+//         connectionString: process.env.DATABASE_URL,
+//         ssl: {
+//           rejectUnauthorized: false,
+//         },
+//     })
+//     const client = await pool.connect();
+//     try {
+//         const query=`insert into auth values(nextval('userIdSeq'),$1,$2,'2002-02-27','sp359422@gmail.com')`;
+//         const {rows}= await client.query(query,[`${userName}`,`${passkey}`]);
+//         if (rows.length > 0) {
+//             return true; 
+//         } else {
+//             return null; 
+//         }
+//     } catch (error) {
+//        console.log(error);
+//     }
+// }
 
 app.post("/signup",async(req,res)=>{
     try{
         const {userName,passkey}=req.body;
         const password= await bcrypt.hash(passkey,parseInt(process.env.SALT_ROUND));
-        
-        const postD=postData(userName,password);
+        const obj={"userName":userName,"passkey":password};
+        const postD=postData('signup',obj);
         if(postD){
             res.send(`${userName}`);
         }else{
@@ -179,6 +179,22 @@ app.get("/isItMyPassKey", async (req, res) => {
     }
 });
 
+app.post("/newsLetter",async(req,res)=>{
+    const data=req.body;
+    try{
+        const post= await postData('newsletter',data);
+        if(post){
+            res.status(200).json({ success: true, message: "Newsletter subscription successful!." });
+        }else{
+            res.status(500).json({ success: true, message: "Internal server error." });
+        }
+    }
+    catch(error){
+        console.error("Error in /newsLetter route:", error);
+        res.status(500).json({ success: false, message: "Internal server error." });
+    }
+    
+})
 
 
 app.listen(process.env.PORT,()=>{

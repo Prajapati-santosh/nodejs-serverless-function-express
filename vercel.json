@@ -1,5 +1,7 @@
 {   "version": 2,
-    "builds":[{"src":"./index.js","use":"@vercel/node"}],
+    "builds":[{"src":"./index.js","use":"@vercel/node"},
+              {"src":"./src/newsLetter.js","use":"@vercel/node"}
+            ],
     
     "routes": [
     {
@@ -29,6 +31,10 @@
     {
       "src": "/isItMyPassKey",
       "dest": "/index.js"
+    },
+    {
+      "src":"/newsLetter",
+      "dest":"../newsLetter.js"
     }
   ]
 }
