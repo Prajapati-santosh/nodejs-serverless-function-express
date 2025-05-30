@@ -34,7 +34,7 @@
     },
     {
       "src":"/newsLetter",
-      "dest":"../newsLetter.js"
+      "dest":"/index.js"
     }
   ]
 }
