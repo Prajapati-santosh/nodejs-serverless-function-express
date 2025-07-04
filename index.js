@@ -157,7 +157,8 @@ app.post("/Login", async (req, res) => {
                 maxAge: 900000, // 1 day
                 httpOnly: true,
                 secure:true, // Ensure cookies are secure in production
-                sameSite: 'None' // Crucial for Codespaces
+                sameSite: 'None', // Crucial for Codespaces
+                // contentType: credentials
 
             };
             res.cookie('sessionStorage', token, cookieOptions);

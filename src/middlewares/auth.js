@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 function auth(req,res,next){
-    const token=req.cookies.sessionStorage;
+    const token=req.cookies._vercel_jwt;
     if (!token) {
         return res.status(401).send("Access denied. No token provided.");
     }
