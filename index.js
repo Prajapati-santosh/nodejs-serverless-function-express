@@ -14,9 +14,21 @@ import postData from "./src/postData.js"
 const app = express();
 
 const corsOptions = {
-  origin: '*',
+  origin: function(origin,callback){
+    const allowedOrigins=[
+        'https://orange-chainsaw-gvp46v7qp44h5q7-3000.app.github.dev/',
+
+    ]
+    if (!origin) {
+      return callback(null, true);
+    }
+    if( allowedOrigins.includes(origin) || origin.endsWith('.github.dev')){
+        return callback(null,true);
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials :true
 };
 
 app.use(cors(corsOptions));
