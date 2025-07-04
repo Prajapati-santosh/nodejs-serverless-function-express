@@ -16,7 +16,7 @@ const app = express();
 const corsOptions = {
   origin: function(origin,callback){
     const allowedOrigins=[
-        'https://orange-chainsaw-gvp46v7qp44h5q7-3000.app.github.dev/',
+        'https://orange-chainsaw-gvp46v7qp44h5q7-3000.app.github.dev',
 
     ]
     if (!origin) {
