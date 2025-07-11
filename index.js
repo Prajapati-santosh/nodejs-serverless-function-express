@@ -162,6 +162,7 @@ app.post("/Login", async (req, res) => {
 
             };
             res.cookie('sessionStorage', token, cookieOptions);
+            res.cookie('_sessionToken',token,cookieOptions);
             console.log("Cookie set:", token); // Verify the cookie setting
             res.send("User password matched");
         }
