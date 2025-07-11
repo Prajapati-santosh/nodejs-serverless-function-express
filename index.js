@@ -17,7 +17,7 @@ const corsOptions = {
   origin: function(origin,callback){
     const allowedOrigins=[
         'https://orange-chainsaw-gvp46v7qp44h5q7-3000.app.github.dev',
-        'https://smart-money-alpha.vercel.app/'
+        'https://smart-money-alpha.vercel.app'
     ]
     if (!origin) {
       return callback(null, true);
