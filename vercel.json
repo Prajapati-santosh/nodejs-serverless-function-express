@@ -35,6 +35,9 @@
     {
       "src":"/newsLetter",
       "dest":"/index.js"
+    },{
+      "src":"/getImage/(*)",
+      "dest":"/index.js"
     }
   ]
 }
