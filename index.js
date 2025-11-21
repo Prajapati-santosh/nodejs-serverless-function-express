@@ -8,6 +8,9 @@ import cookieParser from "cookie-parser";
 import jwt from 'jsonwebtoken'
 import auth from "./src/middlewares/auth.js";
 import postData from "./src/postData.js"
+import path from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 // import logger from './src/middlewares/logger.js';
 
 
@@ -210,6 +213,18 @@ app.post("/newsLetter",async(req,res)=>{
         res.status(500).json({ success: false, message: "Internal server error." });
     }
     
+})
+
+app.get('/getImage/:key',(req,res)=>{
+    const key=req.params.key;
+    if(key!=process.env.API_KEY){
+        res.status(404).send("Not authorised");
+    }
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+     const imagePath = path.join(__dirname, 'public/images', 'Banner.png');
+    // console.log(imagePath); for test env only 
+    res.sendFile(imagePath)
 })
 
 
