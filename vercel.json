@@ -47,7 +47,7 @@
       "dest": "/index.js"
     },
     {
-      "src": "/getImage/(*)",
+      "src": "/getImage/(.*)",
       "dest": "/index.js"
     }
   ]
