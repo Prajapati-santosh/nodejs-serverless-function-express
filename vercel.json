@@ -1,9 +1,19 @@
-{   "version": 2,
-    "builds":[{"src":"./index.js","use":"@vercel/node"},
-              {"src":"./src/newsLetter.js","use":"@vercel/node"}
-            ],
-    
-    "routes": [
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "./index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["public/images/Banner.png"]
+      }
+    },
+    {
+      "src": "./src/newsLetter.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
     {
       "src": "/",
       "dest": "/index.js"
@@ -33,11 +43,12 @@
       "dest": "/index.js"
     },
     {
-      "src":"/newsLetter",
-      "dest":"/index.js"
-    },{
-      "src":"/getImage/(*)",
-      "dest":"/index.js"
+      "src": "/newsLetter",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/getImage/(*)",
+      "dest": "/index.js"
     }
   ]
 }
