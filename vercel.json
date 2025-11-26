@@ -49,6 +49,9 @@
     {
       "src": "/getImage/(.*)",
       "dest": "/index.js"
+    },{
+      "src":"/Logout",
+      "dest":"/index.js"
     }
   ]
 }

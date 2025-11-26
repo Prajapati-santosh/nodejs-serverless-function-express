@@ -176,6 +176,18 @@ app.post("/Login", async (req, res) => {
 });
 
 
+app.post('/Logout',(req,res)=>{
+    const token=req.cookies.sessionStorage;
+     if (!token) {
+        res.status(401).send("Cannot logout. No token provided.");
+    }
+    else{
+        res.clearCookie('sessionStorage');
+        res.status(204).send('logged out sucessfully');
+    }
+})
+
+
 app.get("/isItMyPassKey", async (req, res) => {
     try {
         const input = req.query.input;

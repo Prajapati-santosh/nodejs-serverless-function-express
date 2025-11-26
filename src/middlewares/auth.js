@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 function auth(req,res,next){
     const token=req.cookies._sessionToken;
     if (!token) {
-        return res.status(401).send("Access denied. No token provided.");
+        return res.status(403).send("Access denied. No token provided.");
     }
     const isIt=jwt.verify(token,process.env.JWT_SECURITY_KEY);
     if(isIt){
